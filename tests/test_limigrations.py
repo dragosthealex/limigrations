@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """Test the limigrations module."""
 import unittest
 import os

@@ -1,8 +1,35 @@
-"""Lightweight migrations system for python / sqlite3."""
+# -*- coding: utf-8 -*-
+"""Lightweight migrations system for python / sqlite3.
+
+This module provides basic migrations functionality for a sqlite3
+database. It contains a method for connecting to the database,
+and functions for migrate and rollback.
+
+The migrations are stored in a migrations folder which can be
+specified (default being 'migrations'). Although the date when they
+are inserted in the db is stored, it is recommended to name them
+by the date/time of creation.
+
+Example:
+  from limigrations import limigrations as lm
+  (...)
+  lm.migrate('database.db', 'migrations')
+  (...)
+  lm.rollback('database.db', 'migrations')
+
+  $ python -m limigrations.limigrations migrate --db_file "database.db"
+      --migrations_dir "migrations"
+  (...)
+  $ python -m limigrations.limigrations rollback --db_file "database.db"
+      --migrations_dir "migrations"
+
+This module has been tested on Python 2.7 and Python 3.5
+"""
 import os
 import sys
 import time
 import sqlite3
+import argparse
 from imp import reload
 
 __all__ = ['connect_database', 'migrate', 'rollback']
@@ -19,7 +46,7 @@ def connect_database(db_file=None):
   return (conn, c)
 
 
-def migrate(db_file=None, migrations_dir=None):
+def migrate(db_file=None, migrations_dir=None, verbose=False):
   """Run the migrations.
 
   Read all the migrations in the migrations directory, and add them to
@@ -43,6 +70,7 @@ def migrate(db_file=None, migrations_dir=None):
     db_file = 'database.db'
   if migrations_dir is None:
     migrations_dir = 'migrations'
+  if not os.path.isdir(migrations_dir):
     os.mkdir(migrations_dir)
   # Connect to db
   conn, c = connect_database(db_file)
@@ -56,6 +84,8 @@ def migrate(db_file=None, migrations_dir=None):
   # Upload the new ones
   for mig in os.listdir(migrations_dir):
     if mig not in migrations:
+      if verbose:
+        print("Inserting " + mig + " into migrations table ...")
       c.execute("""INSERT INTO migrations
                    VALUES (?, ?, ?)""",
                 (mig, 'down', time.strftime('%Y-%m-%d %H:%M:%S')))
@@ -68,6 +98,8 @@ def migrate(db_file=None, migrations_dir=None):
                           WHERE status='down'
                           ORDER BY date(created_at) DESC"""):
     # Run the up method
+    if verbose:
+      print("Running " + row[0] + " ...")
     mig = __import__(row[0].split('.py')[0])
     mig = reload(mig)
     mig.up(conn, c)
@@ -76,11 +108,13 @@ def migrate(db_file=None, migrations_dir=None):
                  WHERE file=?""", (row[0],))
     conn.commit()
     migrations_run += 1
+    if verbose:
+      print("Successfully run " + row[0])
   # Return the boolean
   return migrations_run > 0
 
 
-def rollback(db_file=None, migrations_dir=None):
+def rollback(db_file=None, migrations_dir=None, verbose=False):
   """Roll back a migration.
 
   Calls the 'down' method of the latest migration with status
@@ -103,6 +137,8 @@ def rollback(db_file=None, migrations_dir=None):
     migrations_dir = 'migrations'
     os.mkdir(migrations_dir)
     # No migrations, so nothing to rollback
+    if verbose:
+      print("No migration to roll back")
     return False
   # Connect to db and get the latest 'up' migration
   conn, c = connect_database(db_file)
@@ -113,6 +149,8 @@ def rollback(db_file=None, migrations_dir=None):
   row = c.fetchone()
   # If nothing to run, return False
   if row is None:
+    if verbose:
+      print("No migration to roll back")
     return False
   # Run the rollback
   mig = __import__((row[0].split('.py'))[0])
@@ -124,3 +162,33 @@ def rollback(db_file=None, migrations_dir=None):
   conn.commit()
   # Something was rolled back, so return True
   return True
+
+import argparse
+
+
+def main():
+  """The cmd line functionality."""
+  parser = argparse.ArgumentParser()
+  parser.add_argument("action", help="Action to take, can be 'migrate' or " +
+                      "'rollback'")
+  parser.add_argument("-d", "--db_file", help="Path to the database file.",
+                      default="database.db")
+  parser.add_argument("-m", "--migrations_dir", help="Path to the " +
+                      "migrations directory.", default="migrations")
+  parser.add_argument("-v", "--verbose", help="Verbose", default="False",
+                      action="store_true")
+  args = parser.parse_args()
+  if args.action == 'migrate':
+    result = migrate(args.db_file, args.migrations_dir, args.verbose)
+    if args.verbose:
+      print(result)
+  elif args.action == 'rollback':
+    result = rollback(args.db_file, args.migrations_dir, args.verbose)
+    if args.verbose:
+      print(result)
+  else:
+    print("Invalid action.")
+    parser.print_help()
+
+if __name__ == '__main__':
+  main()
