@@ -3,6 +3,9 @@ import os
 import sys
 import time
 import sqlite3
+from imp import reload
+
+__all__ = ['connect_database', 'migrate', 'rollback']
 
 
 def connect_database(db_file=None):
@@ -51,7 +54,7 @@ def migrate(db_file=None, migrations_dir=None):
   query = "SELECT * FROM migrations"
   migrations = [row[0] for row in c.execute(query)]
   # Upload the new ones
-  for mig in os.listdir(config.DB_FILE):
+  for mig in os.listdir(migrations_dir):
     if mig not in migrations:
       c.execute("""INSERT INTO migrations
                    VALUES (?, ?, ?)""",
@@ -66,6 +69,7 @@ def migrate(db_file=None, migrations_dir=None):
                           ORDER BY date(created_at) DESC"""):
     # Run the up method
     mig = __import__(row[0].split('.py')[0])
+    mig = reload(mig)
     mig.up(conn, c)
     # Modify it
     c.execute("""UPDATE migrations SET status='up'
@@ -112,6 +116,7 @@ def rollback(db_file=None, migrations_dir=None):
     return False
   # Run the rollback
   mig = __import__((row[0].split('.py'))[0])
+  mig = reload(mig)
   mig.down(conn, c)
   # Update it
   c.execute("""UPDATE migrations SET status='down'
