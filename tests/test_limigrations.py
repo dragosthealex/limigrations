@@ -24,13 +24,11 @@ class TestLimigrations(unittest.TestCase):
   def tearDown(self):
     """Called after every test."""
     if os.path.isfile(self.migrations_dir + '/test_migration.py'):
-      pass
-      # os.unlink(self.migrations_dir + '/test_migration.py')
+      os.unlink(self.migrations_dir + '/test_migration.py')
     if os.path.isfile(self.db_file):
       os.unlink(self.db_file)
     if os.path.isdir(self.migrations_dir):
-      pass
-      # shutil.rmtree(self.migrations_dir)
+      shutil.rmtree(self.migrations_dir)
 
   def test_migrate(self):
     """Test whether the migration system works."""
