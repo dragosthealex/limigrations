@@ -29,6 +29,9 @@ Example:
       --migrations_dir "migrations"
 
 This module has been tested on Python 2.7 and Python 3.5
+
+See:
+https://github.com/dragosthealex/limigrations
 """
 import os
 import sys
