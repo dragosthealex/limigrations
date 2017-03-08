@@ -34,6 +34,7 @@ See:
 https://github.com/dragosthealex/limigrations
 """
 import os
+import re
 import sys
 import time
 import sqlite3
@@ -91,6 +92,8 @@ def migrate(db_file=None, migrations_dir=None, verbose=False):
   migrations = [row[0] for row in c.execute(query)]
   # Upload the new ones
   for mig in os.listdir(migrations_dir):
+    if re.match(r'(.*\.py$)', mig) is None:
+      os.unlink(mig)
     if mig not in migrations:
       if verbose:
         print("Inserting " + mig + " into migrations table ...")
