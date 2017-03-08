@@ -6,9 +6,9 @@ a single class which extends this migration and implements the
 methods up and down.
 
 Example:
-  from limigrations.migration import Migration
+  from limigrations.migration import BaseMigration
   (...)
-  class MyMigration(Migration):
+  class Migration(BaseMigration):
     def up(self, db_file=None, migrations_dir=None):
       # called on migrate
       pass
@@ -18,13 +18,13 @@ Example:
       pass
 """
 from six import add_metaclass
-from abc import ABCMeta
+from abc import ABCMeta, abstractmethod
 
-__all__ = ['Migration']
+__all__ = ['BaseMigration']
 
 
 @add_metaclass(ABCMeta)
-class Migration():
+class BaseMigration():
 
   @abstractmethod
   def up(self, conn, c): pass

@@ -17,8 +17,8 @@ class TestLimigrations(unittest.TestCase):
 
   def setUp(self):
     """Called before each test."""
-    self.db_file = 'database.db'
-    self.migrations_dir = 'migrations'
+    self.db_file = 'test_database.db'
+    self.migrations_dir = 'test_migrations'
     if not os.path.isdir(self.migrations_dir):
       os.mkdir(self.migrations_dir)
 
@@ -37,15 +37,19 @@ class TestLimigrations(unittest.TestCase):
     # Create a migration
     with open(self.migrations_dir + "/test_migration.py", "w") as f:
       f.write("""\
-def up(conn, c):
-  c.execute('''CREATE TABLE IF NOT EXISTS test
-               ('col1' text, 'col2' text)''')
-  conn.commit()
-  c.execute('''INSERT INTO test
-               VALUES (?, ?)''', ('lol', 'stuff'))
-  conn.commit()
-def down(conn, c):
-  pass""")
+# -*- coding: utf-8 -*-
+from limigrations.migration import BaseMigration
+
+class Migration(BaseMigration):
+  def up(self, conn, c):
+    c.execute('''CREATE TABLE IF NOT EXISTS test
+                 ('col1' text, 'col2' text)''')
+    conn.commit()
+    c.execute('''INSERT INTO test
+                 VALUES (?, ?)''', ('lol', 'stuff'))
+    conn.commit()
+  def down(self, conn, c):
+    pass""")
     # Migrate
     limigrations.migrate(self.db_file, self.migrations_dir)
     # Test whether the table was created
@@ -65,18 +69,22 @@ def down(conn, c):
     # Create a migration
     with open(self.migrations_dir + "/test_migration.py", "w") as f:
       f.write("""\
-def up(conn, c):
-  c.execute('''CREATE TABLE IF NOT EXISTS test
-               ('col1' text, 'col2' text)''')
-  conn.commit()
-  c.execute('''INSERT INTO test
-               VALUES (?, ?)''', ('lol', 'stuff'))
-  conn.commit()
-def down(conn, c):
-  c.execute('''SELECT name FROM sqlite_master
-                 WHERE type="table" AND name="test"''')
-  c.execute('''DROP TABLE IF EXISTS test''')
-  conn.commit()""")
+# -*- coding: utf-8 -*-
+from limigrations.migration import BaseMigration
+
+class Migration(BaseMigration):
+  def up(self, conn, c):
+    c.execute('''CREATE TABLE IF NOT EXISTS test
+                 ('col1' text, 'col2' text)''')
+    conn.commit()
+    c.execute('''INSERT INTO test
+                 VALUES (?, ?)''', ('lol', 'stuff'))
+    conn.commit()
+  def down(self, conn, c):
+    c.execute('''SELECT name FROM sqlite_master
+                   WHERE type="table" AND name="test"''')
+    c.execute('''DROP TABLE IF EXISTS test''')
+    conn.commit()""")
     # Migrate and then rollback
     limigrations.migrate(self.db_file, self.migrations_dir)
     limigrations.rollback(self.db_file, self.migrations_dir)

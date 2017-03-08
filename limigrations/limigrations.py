@@ -1,8 +1,13 @@
 # -*- coding: utf-8 -*-
 """Lightweight migrations system for python / sqlite3.
 
-This module provides basic migrations functionality for a sqlite3
-database. It contains a method for connecting to the database,
+Migrations are a type of version control for databases, used to
+keep track of the changes made, and to provide easy maintainability.
+In case something goes wrong, 'rollback' can be run and it will
+revert the database to the previous state.
+
+This module provides basic migrations functionality for sqlite3.
+It contains a method for connecting to the database,
 and functions for migrate and rollback.
 
 The migrations are stored in a migrations folder which can be
@@ -102,7 +107,8 @@ def migrate(db_file=None, migrations_dir=None, verbose=False):
       print("Running " + row[0] + " ...")
     mig = __import__(row[0].split('.py')[0])
     mig = reload(mig)
-    mig.up(conn, c)
+    mig_inst = mig.Migration()
+    mig_inst.up(conn, c)
     # Modify it
     c.execute("""UPDATE migrations SET status='up'
                  WHERE file=?""", (row[0],))
@@ -155,15 +161,14 @@ def rollback(db_file=None, migrations_dir=None, verbose=False):
   # Run the rollback
   mig = __import__((row[0].split('.py'))[0])
   mig = reload(mig)
-  mig.down(conn, c)
+  mig_inst = mig.Migration()
+  mig_inst.down(conn, c)
   # Update it
   c.execute("""UPDATE migrations SET status='down'
                  WHERE file=?""", (row[0],))
   conn.commit()
   # Something was rolled back, so return True
   return True
-
-import argparse
 
 
 def main():
