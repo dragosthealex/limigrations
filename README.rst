@@ -49,8 +49,8 @@ and modifying the `up` and `down` methods. Optionally, name it after the date an
 Command-Line
 """""""""""""""""
 5a. Run 
-.. 
-  python -m limigrations migrate --db_file "my-database.db" --migrations_dir "my-migrations"
+   .. code-block:: bash
+       $ python -m limigrations migrate --db_file "my-database.db" --migrations_dir "my-migrations"
 6a. Done! You should now see the changes written in the `up` method being applied.
 7a. If something goes wrong and you want to revert, run
 ..code:: shell
