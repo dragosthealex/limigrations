@@ -92,9 +92,9 @@ def migrate(db_file=None, migrations_dir=None, verbose=False):
   migrations = [row[0] for row in c.execute(query)]
   # Upload the new ones
   for mig in os.listdir(migrations_dir):
-    if re.match(r'(.*\.py$)', mig) is None:
-      os.unlink(mig)
-    if mig not in migrations:
+    if re.match(r'.*\.py$', mig) is None:
+      os.unlink(migrations_dir + '/' + mig)
+    elif mig not in migrations:
       if verbose:
         print("Inserting " + mig + " into migrations table ...")
       c.execute("""INSERT INTO migrations
@@ -165,6 +165,8 @@ def rollback(db_file=None, migrations_dir=None, verbose=False):
       print("No migration to roll back")
     return False
   # Run the rollback
+  # Add migrations to import path
+  sys.path.append(migrations_dir)
   mig = __import__((row[0].split('.py'))[0])
   mig = reload(mig)
   mig_inst = mig.Migration()
