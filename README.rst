@@ -127,7 +127,7 @@ directories and files are deleted after completion.
 
 Contributing
 ***************
-1. Fork the `repository <https://github.com/pypa/twine>`_ on GitHub.
+1. Fork the `repository <https://github.com/dragosthealex/limigrations>`_ on GitHub.
 2. Make a branch off of master and commit your changes to it.
 3. Run the tests with ``unittest``  
 4. Ensure that your name is added to the end of the AUTHORS file using the
