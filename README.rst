@@ -32,17 +32,13 @@ There is an example `here <https://github.com/dragosthealex/limigrations/blob/ma
 Installing
 ^^^^^^^^^^^^^^^^^^^^^
 1. Install the package with `pip` or clone this repository
-
 .. 
   pip install limigrations
-
-.. 
   git clone git@github.com:dragosthealex/limigrations.git
 
 2. In your project create a directory for migrations
 .. 
   mkdir my-migrations
-  
 3. Decide on a name for your database e.g. *my-database.db*
 4. In *my-migrations* create your first migration, by copying the `example <https://github.com/dragosthealex/limigrations/blob/master/migrations/example_migration.py>`_
 and modifying the `up` and `down` methods. Optionally, name it after the date and time e.g. *2017-03-08_12:31*
