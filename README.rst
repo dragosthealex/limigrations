@@ -18,7 +18,7 @@ A migration consist in a Python script (preferably named by datetime of creation
 placed in the *migrations directory*.
 The script should contain an import and a class called ``Migration`` which implements ``BaseMigration``.
 
-.. code:: python
+.. 
   from limigrations.migration import BaseMigration
 
   class Migration(BaseMigration):
@@ -33,14 +33,14 @@ Installing
 ^^^^^^^^^^^^^^^^^^^^^
 1. Install the package with `pip` or clone this repository
 
-.. code:: shell
+.. 
   pip install limigrations
 
-.. code:: shell
+.. 
   git clone git@github.com:dragosthealex/limigrations.git
 
 2. In your project create a directory for migrations
-.. code:: shell
+.. 
   mkdir my-migrations
   
 3. Decide on a name for your database e.g. *my-database.db*
@@ -50,7 +50,7 @@ and modifying the `up` and `down` methods. Optionally, name it after the date an
 Command-Line
 """""""""""""""""
 5a. Run 
-.. code:: shell
+.. 
   python -m limigrations migrate --db_file "my-database.db" --migrations_dir "my-migrations"
 6a. Done! You should now see the changes written in the `up` method being applied.
 7a. If something goes wrong and you want to revert, run
@@ -61,21 +61,21 @@ Command-Line
 Runtime
 """""""""""""""""
 5b. Import the limigrations module and run the migrations
-.. code:: python
+.. code
   from limigrations import limigrations
   
   limigrations.migrate('my-database.db', 'my-migrations')
 7a. If you want to rollback later, run the rollback
-.. code:: python
+.. 
   limigrations.rollback('my-database.db', 'my-migrations')
 8a. If you just want to connect to the database
-.. code:: python
+.. 
   conn, c = limigrations.connect_database('my-database.db')
 
 Testing
 ^^^^^^^^^^^^^^^^^^^^^
 After cloning the repository, run 
-.. code:: python
+.. 
   python -m unittest -v tests.test_limigrations
 There are two tests, one for `migrate` and one for `rollback`.
 They create a test migration at runtime, defining the `up` and `down` methods,
