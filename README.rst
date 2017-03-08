@@ -6,7 +6,7 @@ of the changes made, and to provide easy maintainability.
 In case something goes wrong, 'rollback' can be run and it will
 revert the database to the previous state.
 
-This module provides basic migrations functionality for 
+`limigrations <https://pypi.python.org/pypi/limigrations/1.0.0>`_ provides basic migrations functionality for 
 `sqlite3 <https://www.sqlite.org/>`_. It contains a method 
 for connecting to the database, and functions for migrate 
 and rollback.
