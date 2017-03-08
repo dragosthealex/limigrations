@@ -18,8 +18,8 @@ with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
     long_description = f.read()
 
 setup(
-    name='sample',
-    version='1.2.0',
+    name='limigrations',
+    version='1.0.0',
     description='Lightweight migrations system for python / sqlite3',
     long_description=long_description,
 
@@ -36,7 +36,7 @@ setup(
     # See https://pypi.python.org/pypi?%3Aaction=list_classifiers
     classifiers=[
         # Development status
-        'Development Status :: 4 - Beta',
+        'Development Status :: 5 - Production/Stable',
 
         # Audience and topics
         'Intended Audience :: Developers',
@@ -74,7 +74,7 @@ setup(
     # your project is installed. For an analysis of "install_requires" vs pip's
     # requirements files see:
     # https://packaging.python.org/en/latest/requirements.html
-    install_requires=['sqlite3', 'six', 'imp', 'argparse', 'abc'],
+    install_requires=[],
 
     # List additional groups of dependencies here (e.g. development
     # dependencies). You can install these using the following syntax,
