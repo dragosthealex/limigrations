@@ -107,7 +107,7 @@ def migrate(db_file=None, migrations_dir=None, verbose=False):
   migrations_run = 0
   for row in c.execute("""SELECT * FROM migrations
                           WHERE status='down'
-                          ORDER BY date(created_at) DESC"""):
+                          ORDER BY datetime(created_at) DESC"""):
     # Run the up method
     if verbose:
       print("Running " + row[0] + " ...")
@@ -156,7 +156,7 @@ def rollback(db_file=None, migrations_dir=None, verbose=False):
   conn, c = connect_database(db_file)
   c.execute("""SELECT * FROM migrations
                WHERE status='up'
-               ORDER BY date(created_at) DESC
+               ORDER BY datetime(created_at) DESC
                LIMIT 1""")
   row = c.fetchone()
   # If nothing to run, return False
