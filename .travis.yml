@@ -12,4 +12,5 @@ python:
   - "nightly" # currently points to 3.7-dev
 # command to run tests
 install: "pip install six"
-script: python -m unittest discover -s tests
+script: coverage run --source limigrations setup.py test
+after_success: coveralls
