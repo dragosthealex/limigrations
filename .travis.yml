@@ -11,6 +11,6 @@ python:
   - "3.7-dev" # 3.7 development branch
   - "nightly" # currently points to 3.7-dev
 # command to run tests
-install: "pip install six"
+install: "pip install six coverage coveralls"
 script: coverage run --source limigrations setup.py test
 after_success: coveralls
