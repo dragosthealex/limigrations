@@ -1,5 +1,9 @@
-limigrations
+limigrations |travis| |pypi|
 ===============
+.. |travis| image:: https://travis-ci.org/dragosthealex/limigrations.svg?branch=master
+    :target: https://travis-ci.org/dragosthealex/limigrations.svg?branch=master
+.. |pypi| image:: https://badge.fury.io/py/limigrations.svg
+    :target: https://pypi.python.org/pypi/limigrations/1.0.2
 `Migrations <https://en.wikipedia.org/wiki/Schema_migration>`_
 are a type of version control for databases, used to keep track 
 of the changes made, and to provide easy maintainability.
