@@ -2,5 +2,6 @@
 exclude_lines =
     pragma: no cover
 [run]
-omit =
-    limigrations/migration.py
+include =
+    limigrations/limigrations.py
+    tests/test_limigrations.py
