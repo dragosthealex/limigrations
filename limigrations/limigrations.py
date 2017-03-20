@@ -42,7 +42,6 @@ import sys
 import time
 import sqlite3
 import argparse
-import unicodedata
 from argparse import RawTextHelpFormatter
 from imp import reload
 
