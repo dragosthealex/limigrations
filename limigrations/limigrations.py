@@ -7,8 +7,8 @@ In case something goes wrong, 'rollback' can be run and it will
 revert the database to the previous state.
 
 This module provides basic migrations functionality for sqlite3.
-It contains a method for connecting to the database,
-and functions for migrate and rollback.
+It contains a method for connecting to the database, a method for
+creating new migrations and functions for migrate and rollback.
 
 The migrations are stored in a migrations folder which can be
 specified (default being 'migrations'). Although the date when they
@@ -22,6 +22,9 @@ Example:
     (...)
     lm.rollback('database.db', 'migrations')
 
+    $ python -m limigrations.limigrations new --new_migration
+            "users_table_migration" --migrations_dir "migrations"
+    (...)
     $ python -m limigrations.limigrations migrate --db_file "database.db"
             --migrations_dir "migrations"
     (...)

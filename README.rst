@@ -68,8 +68,14 @@ Usage
 
   $ touch my-database.db
 
-3. In *my-migrations* create your first migration, by copying the `example <https://github.com/dragosthealex/limigrations/blob/master/migrations/example_migration.py>`_
-and modifying the `up` and `down` methods. Optionally, name it after the date and time e.g. *2017-03-08_12:31*
+3. Create your first migration using the command-line, then edit the `up` and `down` methods
+::
+
+  $ python -m limigrations new --new_migration "users_table" --migrations_dir "my-migrations"
+
+Optionally, you can copy the `example <https://github.com/dragosthealex/limigrations/blob/master/migrations/example_migration.py>`_
+and modifying the `up` and `down` methods, saving it in your migrations directory.
+It's recommended to name it after the date and time e.g. *2017-03-08_12:31*
 
 Command-Line
 """""""""""""""""
