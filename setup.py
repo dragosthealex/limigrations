@@ -20,7 +20,7 @@ with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
 
 setup(
     name='limigrations',
-    version='1.0.3',
+    version='1.1.0',
     description='Lightweight migrations system for python / sqlite3',
     long_description=long_description,
 

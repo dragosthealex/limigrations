@@ -1,5 +1,5 @@
 limigrations |pypi| |travis| |coverage| |landscape|
-=============================
+===================================================
 .. |travis| image:: https://travis-ci.org/dragosthealex/limigrations.svg?branch=master
     :target: https://travis-ci.org/dragosthealex/limigrations.svg?branch=master
     :alt: Build Status
