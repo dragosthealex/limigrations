@@ -1,9 +1,12 @@
-limigrations |travis| |pypi|
+limigrations |travis| |pypi| |landscape|
 =============================
 .. |travis| image:: https://travis-ci.org/dragosthealex/limigrations.svg?branch=master
     :target: https://travis-ci.org/dragosthealex/limigrations.svg?branch=master
 .. |pypi| image:: https://badge.fury.io/py/limigrations.svg
     :target: https://pypi.python.org/pypi/limigrations/1.0.2
+.. |landscape| image:: https://landscape.io/github/dragosthealex/limigrations/master/landscape.svg?style=flat
+   :target: https://landscape.io/github/dragosthealex/limigrations/master
+   :alt: Code Health
 
 `Migrations <https://en.wikipedia.org/wiki/Schema_migration>`_
 are a type of version control for databases, used to keep track 
