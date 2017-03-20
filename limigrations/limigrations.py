@@ -39,6 +39,7 @@ import sys
 import time
 import sqlite3
 import argparse
+from argparse import RawTextHelpFormatter
 from imp import reload
 
 __all__ = ['connect_database', 'migrate', 'rollback']
@@ -183,15 +184,20 @@ def rollback(db_file=None, migrations_dir=None, verbose=False):
 
 def main():    # pragma: no cover
     """The cmd line functionality."""
-    parser = argparse.ArgumentParser()
-    parser.add_argument("action", help="Action to take, can be 'migrate' or " +
-                        "'rollback'")
-    parser.add_argument("-d", "--db_file", help="Path to the database file.",
+    parser = argparse.ArgumentParser(formatter_class=RawTextHelpFormatter,
+                                     prog="python -m limigrations")
+    parser.add_argument("action", help="Action to take.\n" +
+                        "   migrate = run all migrations in dir\n" +
+                        "   rollback = roll back the last migration\n" +
+                        "   new = create a new migration. -n required.\n",
+                        choices=["migrate", "rollback", "new"])
+    parser.add_argument("-n", "--new_migration", help="new migration name")
+    parser.add_argument("-d", "--db_file", help="path to the database file",
                         default="database.db")
-    parser.add_argument("-m", "--migrations_dir", help="Path to the " +
-                        "migrations directory.", default="migrations")
-    parser.add_argument("-v", "--verbose", help="Verbose", default="False",
-                        action="store_true")
+    parser.add_argument("-m", "--migrations_dir", help="path to the " +
+                        "migrations directory", default="migrations")
+    parser.add_argument("-v", "--verbose", help="output more info during run",
+                        default="False", action="store_true")
     args = parser.parse_args()
     if args.action == 'migrate':
         result = migrate(args.db_file, args.migrations_dir, args.verbose)
@@ -201,9 +207,10 @@ def main():    # pragma: no cover
         result = rollback(args.db_file, args.migrations_dir, args.verbose)
         if args.verbose:
             print(result)
-    else:
-        print("Invalid action.")
-        parser.print_help()
-
+    elif args.action == 'new':
+        if args.new_migration is None:
+            parser.error("`new` action requires -n argument.")
+        else:
+            pass
 if __name__ == '__main__':    # pragma: no cover
     main()
