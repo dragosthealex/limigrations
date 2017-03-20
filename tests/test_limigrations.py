@@ -51,7 +51,7 @@ class Migration(BaseMigration):
   def down(self, conn, c):
     pass""")
     # Migrate
-    limigrations.migrate(self.db_file, self.migrations_dir)
+    limigrations.migrate(self.db_file, self.migrations_dir, True)
     # Test whether the table was created
     c.execute("SELECT * FROM test LIMIT 1")
     row = c.fetchone()
@@ -86,8 +86,8 @@ class Migration(BaseMigration):
     c.execute('''DROP TABLE IF EXISTS test''')
     conn.commit()""")
     # Migrate and then rollback
-    limigrations.migrate(self.db_file, self.migrations_dir)
-    limigrations.rollback(self.db_file, self.migrations_dir)
+    limigrations.migrate(self.db_file, self.migrations_dir, True)
+    limigrations.rollback(self.db_file, self.migrations_dir, True)
     # Test whether rollback works
     conn, c = limigrations.connect_database(self.db_file)
     c.execute("""SELECT name FROM sqlite_master

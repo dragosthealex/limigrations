@@ -75,11 +75,11 @@ def migrate(db_file=None, migrations_dir=None, verbose=False):
     True if a migration was run, False otherwise.
   """
   # Create required files if not existent
-  if db_file is None:
+  if db_file is None:  # pragma: no cover
     db_file = 'database.db'
-  if migrations_dir is None:
+  if migrations_dir is None:  # pragma: no cover
     migrations_dir = 'migrations'
-  if not os.path.isdir(migrations_dir):
+  if not os.path.isdir(migrations_dir):  # pragma: no cover
     os.mkdir(migrations_dir)
   # Connect to db
   conn, c = connect_database(db_file)
@@ -92,7 +92,9 @@ def migrate(db_file=None, migrations_dir=None, verbose=False):
   migrations = [row[0] for row in c.execute(query)]
   # Upload the new ones
   for mig in os.listdir(migrations_dir):
-    if re.match(r'.*\.py$', mig) is None:
+    if os.path.isdir(migrations_dir + '/' + mig):  # pragma: no cover
+      continue
+    if re.match(r'.*\.py$', mig) is None:  # pragma: no cover
       os.unlink(migrations_dir + '/' + mig)
     elif mig not in migrations:
       if verbose:
@@ -143,9 +145,9 @@ def rollback(db_file=None, migrations_dir=None, verbose=False):
     True if a migration was rolled back, False otherwise.
   """
   # Create required files if not existent
-  if db_file is None:
+  if db_file is None:  # pragma: no cover
     db_file = 'database.db'
-  if migrations_dir is None:
+  if migrations_dir is None:  # pragma: no cover
     migrations_dir = 'migrations'
     os.mkdir(migrations_dir)
     # No migrations, so nothing to rollback
@@ -160,7 +162,7 @@ def rollback(db_file=None, migrations_dir=None, verbose=False):
                LIMIT 1""")
   row = c.fetchone()
   # If nothing to run, return False
-  if row is None:
+  if row is None:  # pragma: no cover
     if verbose:
       print("No migration to roll back")
     return False
@@ -179,7 +181,7 @@ def rollback(db_file=None, migrations_dir=None, verbose=False):
   return True
 
 
-def main():
+def main():  # pragma: no cover
   """The cmd line functionality."""
   parser = argparse.ArgumentParser()
   parser.add_argument("action", help="Action to take, can be 'migrate' or " +
@@ -203,5 +205,5 @@ def main():
     print("Invalid action.")
     parser.print_help()
 
-if __name__ == '__main__':
+if __name__ == '__main__':  # pragma: no cover
   main()

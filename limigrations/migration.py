@@ -27,7 +27,9 @@ __all__ = ['BaseMigration']
 class BaseMigration():
 
   @abstractmethod
-  def up(self, conn, c): pass
+  def up(self, conn, c):
+    pass
 
   @abstractmethod
-  def down(self, conn, c): pass
+  def down(self, conn, c):
+    pass
