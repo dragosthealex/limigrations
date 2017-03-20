@@ -100,3 +100,11 @@ class Migration(BaseMigration):
         c.execute("DROP TABLE IF EXISTS test")
         conn.commit()
         conn.close()
+
+    def test_new_migration(self):
+        """Should create new migration file."""
+        name = limigrations.new_migration(self.migrations_dir,
+                                          'test_new_migration',
+                                          True)
+        self.assertTrue(os.path.isfile(name))
+        os.unlink(name)

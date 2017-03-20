@@ -215,6 +215,7 @@ class Migration(BaseMigration):
 """)
     if verbose:
         print("Migration created as " + name)
+    return name
 
 
 def slugify(value):
