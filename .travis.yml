@@ -14,5 +14,5 @@ python:
   - "nightly" # currently points to 3.7-dev
 # command to run tests
 install: "pip install six coverage coveralls"
-script: coverage run --source limigrations setup.py test
+script: coverage run -m unittest -v tests.test_limigrations
 after_success: coveralls
