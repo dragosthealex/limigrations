@@ -4,7 +4,7 @@ limigrations |pypi| |travis| |coverage| |landscape|
     :target: https://travis-ci.org/dragosthealex/limigrations.svg?branch=master
     :alt: Build Status
 .. |pypi| image:: https://badge.fury.io/py/limigrations.svg
-    :target: https://pypi.python.org/pypi/limigrations/1.0.2
+    :target: https://pypi.python.org/pypi/limigrations
     :alt: PyPi Package
 .. |landscape| image:: https://landscape.io/github/dragosthealex/limigrations/master/landscape.svg?style=flat
    :target: https://landscape.io/github/dragosthealex/limigrations/master
