@@ -61,7 +61,7 @@ setup(
     ],
 
     # What does your project relate to?
-    keywords='migrations sqlite3 database development verson-control',
+    keywords='migrations sqlite3 database development version-control',
 
     # You can just specify the packages manually here if your project is
     # simple. Or you can use find_packages().
