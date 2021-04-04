@@ -71,7 +71,7 @@ Usage
 3. Create your first migration using the command-line, then edit the `up` and `down` methods
 ::
 
-  $ python -m limigrations new --new_migration "users_table" --migrations_dir "my-migrations"
+  $ limigrations new --new_migration "users_table" --migrations_dir "my-migrations"
 
 Optionally, you can copy the `example <https://github.com/dragosthealex/limigrations/blob/master/migrations/example_migration.py>`_
 and modifying the `up` and `down` methods, saving it in your migrations directory.
@@ -82,14 +82,14 @@ Command-Line
 4a. Run
 :: 
 
-  $ python -m limigrations migrate --db_file "my-database.db" --migrations_dir "my-migrations"
+  $ limigrations migrate --db_file "my-database.db" --migrations_dir "my-migrations"
 
 5a. Done! You should now see the changes written in the `up` method being applied.
 
 6a. If something goes wrong and you want to revert, run
 :: 
 
-  $ python -m limigrations rollback --db_file "my-database.db" --migrations_dir "my-migrations"
+  $ limigrations rollback --db_file "my-database.db" --migrations_dir "my-migrations"
 
 7a. You should see the changes written in the `down` method being applied.
 

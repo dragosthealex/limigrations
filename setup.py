@@ -20,7 +20,7 @@ with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
 
 setup(
     name='limigrations',
-    version='1.1.0',
+    version='1.1.1',
     description='Lightweight migrations system for python / sqlite3',
     long_description=long_description,
 
@@ -101,7 +101,7 @@ setup(
     # pip to create the appropriate form of executable for the target platform.
     entry_points={
         'console_scripts': [
-            'limigrations=limigrations:main',
+            'limigrations=limigrations.limigrations:main',
         ],
     },
 )
